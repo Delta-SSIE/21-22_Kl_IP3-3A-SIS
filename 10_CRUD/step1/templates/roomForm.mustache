@@ -1,8 +1,22 @@
 <form method="post">
-    {{#room}}
-    <div>
+
+    <div class="my-2">
         <label for="name">Room name</label>
-        <input id="name" name="name" class="form-control" type="text" value="{{name}}"/><!--mělo by být required-->
+        <input id="name" name="name" class="form-control" type="text" value="{{room.name}}"/><!--mělo by být required-->
+        {{#errors.name}}<div class="form-text text-warning">{{errors.name}}</div>{{/errors.name}}
     </div>
-    {{/room}}
+    <div class="my-2">
+        <label for="no">No.</label>
+        <input id="no" name="no" class="form-control" type="text" value="{{room.no}}"/><!--mělo by být required-->
+        {{#errors.no}}<div class="form-text text-warning">{{errors.no}}</div>{{/errors.no}}
+    </div>
+    <div class="my-2">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" class="form-control" type="text" value="{{room.phone}}"/>
+    </div>
+
+    <div class="my-2">
+        <input type="hidden" name="action" value="create" />
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
 </form>
