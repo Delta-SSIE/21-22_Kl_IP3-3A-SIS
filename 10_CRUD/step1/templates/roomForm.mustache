@@ -1,0 +1,8 @@
+<form method="post">
+    {{#room}}
+    <div>
+        <label for="name">Room name</label>
+        <input id="name" name="name" class="form-control" type="text" value="{{name}}"/><!--mělo by být required-->
+    </div>
+    {{/room}}
+</form>

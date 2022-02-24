@@ -11,4 +11,5 @@ spl_autoload_register(function ($className) {
 });
 
 use Tracy\Debugger;
-Debugger::enable();
+if (LocalConfig::DEBUG)
+    Debugger::enable();
