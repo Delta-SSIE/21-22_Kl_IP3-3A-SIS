@@ -16,7 +16,10 @@
     </div>
 
     <div class="my-2">
-        <input type="hidden" name="action" value="create" />
-        <input type="submit" value="Create" class="btn btn-primary" />
+        {{#create}}<input type="hidden" name="action" value="create" />
+        <input type="submit" value="Create" class="btn btn-primary" />{{/create}}
+        {{#update}}<input type="hidden" name="action" value="update" />
+        <input type="hidden" name="room_id" value="{{room.room_id}}">
+        <input type="submit" value="Update" class="btn btn-primary" />{{/update}}
     </div>
 </form>

@@ -43,6 +43,34 @@ class RoomModel
         return $stmt->execute();
     }
 
+    public static function getById($roomId) : ?self
+    {
+        $stmt = DB::getConnection()->prepare("SELECT * FROM `room` WHERE `room_id`=:room_id");
+        $stmt->bindParam(':room_id', $roomId);
+        $stmt->execute();
+
+        $record = $stmt->fetch();
+
+        if (!$record)
+            return null;
+
+        $model = new self();
+        $model->room_id = $record->room_id;
+        $model->name = $record->name;
+        $model->no = $record->no;
+        $model->phone = $record->phone;
+        return $model;
+    }
+
+    public static function getAll($orderBy = "name", $orderDir = "ASC") : PDOStatement
+    {
+
+        $stmt = DB::getConnection()->prepare("SELECT * FROM `room` ORDER BY `{$orderBy}` {$orderDir}");
+        $stmt->execute();
+        return $stmt;
+
+    }
+
     public static function deleteById(int $room_id) : bool
     {
         $sql = "DELETE FROM room WHERE room_id=:room_id";

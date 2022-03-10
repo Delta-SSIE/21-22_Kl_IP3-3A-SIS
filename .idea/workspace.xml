@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53b7bb31-b574-4ec3-8acc-650a2dc1ffc6" name="Default Changelist" comment="2022-03-10 Step 2 base code">
+    <list default="true" id="53b7bb31-b574-4ec3-8acc-650a2dc1ffc6" name="Default Changelist" comment="2022-03-10 Step 2 refactor to model">
+      <change afterPath="$PROJECT_DIR$/10_CRUD/step2/room/delete.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/10_CRUD/step2/room/update.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/10_CRUD/step2/_includes/RequestException.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/_includes/RequestException.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/10_CRUD/step2/_includes/RoomModel.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/_includes/RoomModel.class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/10_CRUD/step2/room/create.php" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/room/create.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/10_CRUD/step2/templates/reportSuccess.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/templates/reportSuccess.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/10_CRUD/step2/room/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/room/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/10_CRUD/step2/templates/roomForm.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/templates/roomForm.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/10_CRUD/step2/templates/roomList.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/10_CRUD/step2/templates/roomList.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/10_CRUD/step1/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/10_CRUD/step2/room" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -51,11 +56,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\www\_wamp_root\IP3\3A-SIS\10_CRUD\step2\room" />
       <recent name="D:\www\_wamp_root\IP3\3A-SIS\10_CRUD\step1\templates" />
       <recent name="D:\www\_wamp_root\IP3\3A-SIS\10_CRUD\step1\room" />
       <recent name="D:\www\_wamp_root\IP3\3A-SIS\09_Small_viewer\_includes" />
       <recent name="D:\www\_wamp_root\IP3\3A-SIS\03-cookies-sessions\session" />
-      <recent name="D:\www\_wamp_root\IP3\3A-SIS\02-arrays-and-strings" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\www\_wamp_root\IP3\3A-SIS\10_CRUD\step1\room" />
@@ -95,7 +100,7 @@
       <workItem from="1644477990595" duration="4234000" />
       <workItem from="1645080969699" duration="5767000" />
       <workItem from="1645686178569" duration="5398000" />
-      <workItem from="1646893960249" duration="3303000" />
+      <workItem from="1646893960249" duration="6593000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1630525373311</created>
@@ -230,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646894738784</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="2022-03-10 Step 2 refactor to model">
+      <created>1646897766356</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1646897766356</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,7 +279,8 @@
     <MESSAGE value="2022-02-24 Room Form" />
     <MESSAGE value="2022-02-24 Room Create" />
     <MESSAGE value="2022-03-10 Step 2 base code" />
-    <option name="LAST_COMMIT_MESSAGE" value="2022-03-10 Step 2 base code" />
+    <MESSAGE value="2022-03-10 Step 2 refactor to model" />
+    <option name="LAST_COMMIT_MESSAGE" value="2022-03-10 Step 2 refactor to model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

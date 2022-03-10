@@ -11,9 +11,10 @@ final class Page extends BaseDBPage{
 
     protected function body(): string
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM `room` ORDER BY `name`");
-        $stmt->execute();
-        return $this->m->render("roomList", ["rooms" => $stmt, "roomDetailName" => "roomDetail.php"]);
+        return $this->m->render(
+            "roomList",
+            ["rooms" => RoomModel::getAll(), "roomDetailName" => "roomDetail.php"]
+        );
     }
 }
 

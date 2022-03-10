@@ -4,21 +4,22 @@ require_once "../_includes/bootstrap.inc.php";
 
 final class Page extends BaseDBPage{
 
-    const STATE_FORM_REQUESTED = 1;
-    const STATE_DATA_SENT = 2;
+//    const STATE_FROM_REQUESTED = 1;
+//    const STATE_DATA_SENT = 2;
     const STATE_REPORT_RESULT = 3;
+    const STATE_DELETE_REQUESTED = 4;
 
     const RESULT_SUCCESS = 1;
     const RESULT_FAIL = 2;
 
-    private RoomModel $room;
+//    private RoomModel $room;
     private int $state;
     private int $result;
 
     public function __construct()
     {
         parent::__construct();
-        $this->title = "Room listing";
+        $this->title = "Room delete";
     }
 
     protected function setUp(): void
@@ -36,47 +37,39 @@ final class Page extends BaseDBPage{
             return;
         }
 
-        if ($this->state === self::STATE_DATA_SENT) {
-            $this->room = RoomModel::getFromPost();
-            if ($this->room->validate()) {
-                //uložím
-                if ($this->room->insert()) {
+        if ($this->state === self::STATE_DELETE_REQUESTED) {
+            $roomId = filter_input(INPUT_POST, "room_id", FILTER_VALIDATE_INT);
+            if ($roomId){
+                //smažu
+                if (RoomModel::deleteById($roomId)) {
                     $this->redirect(self::RESULT_SUCCESS);
                 } else {
                     $this->redirect(self::RESULT_FAIL);
                 }
             } else {
-                $this->state = self::STATE_FORM_REQUESTED;
-                $this->title = "Invalid data";
+                throw new RequestException(400);
             }
-        } else {
-            $this->title = "Create new room";
-            $this->room = new RoomModel();
+
         }
 
     }
 
 
     protected function body(): string {
-        if ($this->state === self::STATE_FORM_REQUESTED) {
-            return $this->m->render("roomForm", [
-                "room"=>$this->room,
-                "errors"=>$this->room->getValidationErrors(),
-                "create"=>true
-            ]);
-        } elseif ($this->state === self::STATE_REPORT_RESULT) {
+        if ($this->state === self::STATE_REPORT_RESULT) {
             if ($this->result === self::RESULT_SUCCESS) {
                 return $this->m->render("reportSuccess", ["data"=>"Room created successfully"]);
             } else {
                 return $this->m->render("reportFail", ["data"=>"Room creation failed. Please contact adiministrator or try again later."]);
             }
-
         }
+        return "";
     }
 
     private function getState() : void {
         //je už hotovo?
         $result = filter_input(INPUT_GET, "result", FILTER_VALIDATE_INT);
+
         if ($result === self::RESULT_SUCCESS) {
             $this->state = self::STATE_REPORT_RESULT;
             $this->result = self::RESULT_SUCCESS;
@@ -87,14 +80,7 @@ final class Page extends BaseDBPage{
             return;
         }
 
-        //byl odeslán formulář
-        $action = filter_input(INPUT_POST, "action");
-        if ($action === "create") {
-            $this->state = self::STATE_DATA_SENT;
-            return;
-        }
-
-        $this->state = self::STATE_FORM_REQUESTED;
+        $this->state = self::STATE_DELETE_REQUESTED;
     }
 
     private function redirect(int $result) : void {

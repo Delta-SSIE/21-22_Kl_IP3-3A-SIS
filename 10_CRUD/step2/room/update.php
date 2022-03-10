@@ -18,7 +18,7 @@ final class Page extends BaseDBPage{
     public function __construct()
     {
         parent::__construct();
-        $this->title = "Room listing";
+        $this->title = "Room update";
     }
 
     protected function setUp(): void
@@ -29,9 +29,9 @@ final class Page extends BaseDBPage{
 
         if ($this->state === self::STATE_REPORT_RESULT) {
             if ($this->result === self::RESULT_SUCCESS) {
-                $this->title = "Room created";
+                $this->title = "Room update";
             } else {
-                $this->title = "Room creation failed";
+                $this->title = "Room update failed";
             }
             return;
         }
@@ -40,18 +40,25 @@ final class Page extends BaseDBPage{
             $this->room = RoomModel::getFromPost();
             if ($this->room->validate()) {
                 //uložím
-                if ($this->room->insert()) {
+                if ($this->room->update()) {
                     $this->redirect(self::RESULT_SUCCESS);
                 } else {
                     $this->redirect(self::RESULT_FAIL);
                 }
             } else {
                 $this->state = self::STATE_FORM_REQUESTED;
-                $this->title = "Invalid data";
+                $this->title = "Room update: Invalid data";
             }
         } else {
-            $this->title = "Create new room";
-            $this->room = new RoomModel();
+            $this->title = "Update room";
+            $roomId = filter_input(INPUT_GET, "room_id", FILTER_VALIDATE_INT);
+            if ($roomId){
+                $this->room = RoomModel::getById($roomId);
+                if (!$this->room)
+                    throw  new RequestException(404);
+            } else {
+                throw  new RequestException(400);
+            }
         }
 
     }
@@ -62,13 +69,13 @@ final class Page extends BaseDBPage{
             return $this->m->render("roomForm", [
                 "room"=>$this->room,
                 "errors"=>$this->room->getValidationErrors(),
-                "create"=>true
+                "update"=>true
             ]);
         } elseif ($this->state === self::STATE_REPORT_RESULT) {
             if ($this->result === self::RESULT_SUCCESS) {
-                return $this->m->render("reportSuccess", ["data"=>"Room created successfully"]);
+                return $this->m->render("reportSuccess", ["data"=>"Room update successfully"]);
             } else {
-                return $this->m->render("reportFail", ["data"=>"Room creation failed. Please contact adiministrator or try again later."]);
+                return $this->m->render("reportFail", ["data"=>"Room update failed. Please contact adiministrator or try again later."]);
             }
 
         }
@@ -89,7 +96,7 @@ final class Page extends BaseDBPage{
 
         //byl odeslán formulář
         $action = filter_input(INPUT_POST, "action");
-        if ($action === "create") {
+        if ($action === "update") {
             $this->state = self::STATE_DATA_SENT;
             return;
         }

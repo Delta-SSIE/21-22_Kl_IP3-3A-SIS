@@ -4,6 +4,7 @@
         <th>Name</th>
         <th>No.</th>
         <th>Phone</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -12,6 +13,11 @@
             <td><a href="{{ roomDetailName }}?room_id={{ room_id }}">{{ name }}</a></td>
             <td>{{ no }}</td>
             <td>{{ phone }}</td>
+            <td><form action="delete.php" method="post" onsubmit="return confirm('Really delete?\n\n this action cannot be undone!');" style="display: inline-block;">
+                <input type="hidden" name="room_id" value="{{ room_id }}" />
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+            <a href="update.php?room_id={{ room_id }}" class="btn btn-info">Edit</a></td>
         </tr>
     {{/rooms}}
     </tbody>
