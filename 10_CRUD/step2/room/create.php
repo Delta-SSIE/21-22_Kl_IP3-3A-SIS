@@ -14,7 +14,6 @@ final class Page extends BaseDBPage{
     private RoomModel $room;
     private int $state;
     private int $result;
-    private array $validationErrors = [];
 
     public function __construct()
     {
@@ -38,12 +37,10 @@ final class Page extends BaseDBPage{
         }
 
         if ($this->state === self::STATE_DATA_SENT) {
-            $this->readPost();
-            $ok = $this->validate();
-            if ($ok) {
+            $this->room = RoomModel::getFromPost();
+            if ($this->room->validate()) {
                 //uložím
-                $createOk = $this->insertData();
-                if ($createOk) {
+                if ($this->room->insert()) {
                     $this->redirect(self::RESULT_SUCCESS);
                 } else {
                     $this->redirect(self::RESULT_FAIL);
@@ -62,7 +59,7 @@ final class Page extends BaseDBPage{
 
     protected function body(): string {
         if ($this->state === self::STATE_FROM_REQUESTED) {
-            return $this->m->render("roomForm", ["room"=>$this->room, "errors"=>$this->validationErrors]);
+            return $this->m->render("roomForm", ["room"=>$this->room, "errors"=>$this->room->getValidationErrors()]);
         } elseif ($this->state === self::STATE_REPORT_RESULT) {
             if ($this->result === self::RESULT_SUCCESS) {
                 return $this->m->render("reportSuccess", ["data"=>"Room created successfully"]);
@@ -94,46 +91,6 @@ final class Page extends BaseDBPage{
         }
 
         $this->state = self::STATE_FROM_REQUESTED;
-    }
-
-    private function readPost() : void {
-        $this->room = new RoomModel();
-        $this->room->name = filter_input(INPUT_POST, "name");
-        $this->room->no = filter_input(INPUT_POST, "no");
-        $this->room->phone = filter_input(INPUT_POST, "phone");
-    }
-
-    private function validate() : bool {
-        $isOk = true;
-        $errors = [];
-
-        if (!$this->room->name){
-            $isOk = false;
-            $errors["name"] = "Room name cannot be empty";
-        }
-
-        if (!$this->room->no){
-            $isOk = false;
-            $errors["no"] = "Room number cannot be empty";
-        }
-        if ($this->room->phone === ""){
-            $this->room->phone = null;
-        }
-
-        $this->validationErrors = $errors;
-        return $isOk;
-    }
-
-    private function insertData() : bool {
-        $sql = "INSERT INTO room (name, no, phone) VALUES (:name, :no, :phone)";
-
-        //dumpe($this->room);
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':name', $this->room->name);
-        $stmt->bindParam(':no', $this->room->no);
-        $stmt->bindParam(':phone', $this->room->phone);
-
-        return $stmt->execute();
     }
 
     private function redirect(int $result) : void {
